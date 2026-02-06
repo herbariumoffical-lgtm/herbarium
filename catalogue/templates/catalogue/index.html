@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herbarium Search</title>
+    <link rel="stylesheet" href="{% static 'catalogue/css/style.css' %}?v=10">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <h1>🌱 Welcome to Herbarium</h1>
+    </header>
+
+    <main>
+        <section class="search-container">
+            <form id="search-form">
+                <!-- Family -->
+                <input list="family-list" name="family" placeholder="Select or Type Family">
+                <datalist id="family-list">
+                    {% for f in families %}
+                    <option value="{{ f }}">
+                        {% endfor %}
+                </datalist>
+
+                <!-- Genus -->
+                <input list="genus-list" name="genus" placeholder="Select or Type Genus">
+                <datalist id="genus-list">
+                    {% for g in genera %}
+                    <option value="{{ g }}">
+                        {% endfor %}
+                </datalist>
+
+                <!-- Species -->
+                <input list="species-list" name="species" placeholder="Select or Type Species">
+                <datalist id="species-list">
+                    {% for s in species_list %}
+                    <option value="{{ s }}">
+                        {% endfor %}
+                </datalist>
+
+                <!-- Barcode -->
+                <input list="barcode-list" name="barcode" placeholder="Select or Type Barcode">
+                <datalist id="barcode-list">
+                    {% for b in barcodes %}
+                    <option value="{{ b }}">
+                        {% endfor %}
+                </datalist>
+
+                <!-- Dropdowns Removed as per request -->
+
+
+
+                <button type="submit" class="search-btn">Find Plants 🌿</button>
+            </form>
+        </section>
+
+        <div id="loading-spinner" class="hidden"
+            style="text-align: center; margin: 20px; color: #2E7D32; font-weight: bold;">
+            Searching... 🌿
+        </div>
+
+        <section class="results-container">
+            <table id="results-table" class="plant-table hidden">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">Image</th>
+                        <th>Barcode</th>
+                        <th>Family</th>
+                        <th>Genus</th>
+                        <th>Species</th>
+                        <th>More Details</th>
+                    </tr>
+                </thead>
+                <tbody id="results-area">
+                    <!-- Rows will be added here by JS -->
+                </tbody>
+            </table>
+        </section>
+
+        <div id="no-results" class="hidden">
+            <p>Oops 🌸, no plants found!</p>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <span>&copy; <span id="year"></span> Herbarium Project. All Rights Reserved</span>
+            <span class="divider">|</span>
+            <span>Designed By Hadhiya <span class="heart-icon">💚</span></span>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <script src="{% static 'catalogue/js/script.js' %}?v=10"></script>
+</body>
+
+</html>

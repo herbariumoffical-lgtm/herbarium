@@ -1,0 +1,72 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'catalogue/css/login_cinematic.css' %}">
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block content %}
+<!-- === CINEMATIC STAGE === -->
+<div class="stage">
+
+    <div class="sun"></div>
+
+    <!-- ACTOR LAYER -->
+    <!-- In the future, replace this div with <lottie-player> -->
+    <div class="actor-container"></div>
+
+    <!-- GROUND LAYER -->
+    <div class="ground"></div>
+
+    <!-- PLANT LAYER -->
+    <div class="seed"></div>
+    <div class="plant-stem"></div>
+
+    <!-- UI LAYER (The actual form) -->
+    <div class="login-ui-container">
+        <h1>🌿 Welcome Back</h1>
+
+        {% if form.errors and not form.non_field_errors %}
+        <p class="errornote">
+            {% if form.errors.items|length == 1 %}{% translate "Please correct the error below." %}{% else %}{%
+            translate "Please correct the errors below." %}{% endif %}
+        </p>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <p class="errornote">
+            {{ error }}
+        </p>
+        {% endfor %}
+        {% endif %}
+
+        <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
+            <div class="form-row">
+                {{ form.username.errors }}
+                {{ form.username.label_tag }} {{ form.username }}
+            </div>
+            <div class="form-row">
+                {{ form.password.errors }}
+                {{ form.password.label_tag }} {{ form.password }}
+                <input type="hidden" name="next" value="{{ next }}">
+            </div>
+            {% url 'admin_password_reset' as password_reset_url %}
+            {% if password_reset_url %}
+            <div class="password-reset-link">
+                <a href="{{ password_reset_url }}">{% translate 'Forgotten your password or username?' %}</a>
+            </div>
+            {% endif %}
+            <div class="submit-row">
+                <input type="submit" value="{% translate 'Log in' %}">
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<script src="{% static 'catalogue/js/login_cinematic.js' %}"></script>
+{% endblock %}
